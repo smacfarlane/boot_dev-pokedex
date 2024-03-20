@@ -3,7 +3,7 @@ package commands
 import (
 	"errors"
 	"fmt"
-	"pokedex/pokeapi"
+	"pokedex/internal/pokeapi"
 )
 
 func commandMap(c *Config) error {

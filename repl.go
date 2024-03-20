@@ -12,6 +12,8 @@ func repl() {
 	cli := commands.Cli()
 	const prompt = "Pokedex > "
 	scanner := bufio.NewScanner(os.Stdin)
+	config := commands.Config{}
+
 	for {
 		fmt.Printf("%s ", prompt)
 		if ok := scanner.Scan(); !ok {
@@ -21,7 +23,7 @@ func repl() {
 		command := scanner.Text()
 		command = strings.TrimSpace(command)
 		if cmd, ok := cli[command]; ok {
-			cmd.Run()
+			cmd.Run(&config)
 		}
 	}
 }

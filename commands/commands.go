@@ -1,14 +1,9 @@
 package commands
 
-import (
-	"fmt"
-	"os"
-)
-
 type cliCommand struct {
 	name        string
 	description string
-	callback    func() error
+	callback    func(*Config) error
 }
 
 func Cli() map[string]cliCommand {
@@ -23,28 +18,19 @@ func Cli() map[string]cliCommand {
 			description: "Exit the Pokedex",
 			callback:    commandExit,
 		},
+		"map": {
+			name:        "map",
+			description: "Display next 20 locations in the world",
+			callback:    commandMap,
+		},
+		"mapb": {
+			name:        "mapb",
+			description: "Display previous 20 locations in the world",
+			callback:    commandMapb,
+		},
 	}
 }
 
-func (c *cliCommand) Run() error {
-	return c.callback()
-}
-
-func commandHelp() error {
-	fmt.Println("Welcome to the Pokedex!")
-	fmt.Println("Usage:\n")
-
-	for _, v := range Cli() {
-		fmt.Printf("%v: %v\n", v.name, v.description)
-	}
-
-	fmt.Println()
-
-	return nil
-}
-
-func commandExit() error {
-	os.Exit(0)
-	// unreachable
-	return nil
+func (c *cliCommand) Run(conf *Config) error {
+	return c.callback(conf)
 }

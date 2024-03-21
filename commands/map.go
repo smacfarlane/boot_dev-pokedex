@@ -3,19 +3,17 @@ package commands
 import (
 	"errors"
 	"fmt"
-	"pokedex/internal/pokeapi"
 )
 
 func commandMap(c *Config, _ ...string) error {
-	resp, err := pokeapi.GetLocationAreas(c.Next)
-
+	resp, err := c.Client.GetLocationAreas(c.Next)
 	if err != nil {
 		return err
 	}
 
-	if resp.Next != nil {
-		c.Next = resp.Next
-	}
+	c.Next = resp.Next
+	c.Previous = resp.Previous
+	fmt.Println(resp.Previous)
 
 	for _, result := range resp.Results {
 		fmt.Println(result.Name)
@@ -29,15 +27,13 @@ func commandMapb(c *Config, _ ...string) error {
 		return errors.New("no previous page")
 	}
 
-	resp, err := pokeapi.GetLocationAreas(c.Previous)
-
+	resp, err := c.Client.GetLocationAreas(c.Previous)
 	if err != nil {
 		return err
 	}
 
-	if resp.Previous != nil {
-		c.Previous = resp.Previous
-	}
+	c.Next = resp.Next
+	c.Previous = resp.Previous
 
 	for _, result := range resp.Results {
 		fmt.Println(result.Name)

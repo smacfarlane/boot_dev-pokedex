@@ -3,16 +3,15 @@ package commands
 import (
 	"errors"
 	"fmt"
-	"pokedex/internal/pokeapi"
 )
 
-func commandExplore(_ *Config, args ...string) error {
+func commandExplore(c *Config, args ...string) error {
 	if len(args) == 0 {
 		return errors.New("no region specified")
 	}
 	fmt.Printf("Exploring %s\n", args[0])
 
-	location, err := pokeapi.GetLocationArea(args[0])
+	location, err := c.Client.GetLocationArea(args[0])
 	if err != nil {
 		return err
 	}

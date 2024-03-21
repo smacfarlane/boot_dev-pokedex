@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"pokedex/commands"
+	"pokedex/internal/pokeapi"
 	"strings"
 )
 
@@ -12,7 +13,9 @@ func repl() {
 	cli := commands.Cli()
 	const prompt = "Pokedex > "
 	scanner := bufio.NewScanner(os.Stdin)
-	config := commands.Config{}
+	config := commands.Config{
+		Client: pokeapi.NewClient(),
+	}
 
 	for {
 		fmt.Printf("%s ", prompt)

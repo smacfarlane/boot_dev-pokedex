@@ -20,10 +20,17 @@ func repl() {
 			fmt.Printf("Error: %v", scanner.Err())
 			return
 		}
-		command := scanner.Text()
-		command = strings.TrimSpace(command)
+		input := scanner.Text()
+		input = strings.TrimSpace(input)
+		command := strings.Split(input, " ")[0]
+		args := strings.Split(input, " ")[1:]
 		if cmd, ok := cli[command]; ok {
-			cmd.Run(&config)
+			err := cmd.Run(&config, args...)
+			if err != nil {
+				fmt.Fprintf(os.Stderr, "error: %v\n", err)
+			}
+		} else {
+			fmt.Fprintf(os.Stderr, "error: unknown command '%v'", input)
 		}
 	}
 }

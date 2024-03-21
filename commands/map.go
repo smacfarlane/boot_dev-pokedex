@@ -6,7 +6,7 @@ import (
 	"pokedex/internal/pokeapi"
 )
 
-func commandMap(c *Config) error {
+func commandMap(c *Config, _ ...string) error {
 	resp, err := pokeapi.GetLocationAreas(c.Next)
 
 	if err != nil {
@@ -24,7 +24,7 @@ func commandMap(c *Config) error {
 	return nil
 }
 
-func commandMapb(c *Config) error {
+func commandMapb(c *Config, _ ...string) error {
 	if c.Previous == nil {
 		return errors.New("no previous page")
 	}

@@ -6,6 +6,7 @@ import (
 	"os"
 	"pokedex/commands"
 	"pokedex/internal/pokeapi"
+	"pokedex/internal/pokedex"
 	"strings"
 )
 
@@ -14,7 +15,8 @@ func repl() {
 	const prompt = "Pokedex > "
 	scanner := bufio.NewScanner(os.Stdin)
 	config := commands.Config{
-		Client: pokeapi.NewClient(),
+		Client:  pokeapi.NewClient(),
+		Pokedex: pokedex.NewPokedex(),
 	}
 
 	for {
@@ -33,7 +35,7 @@ func repl() {
 				fmt.Fprintf(os.Stderr, "error: %v\n", err)
 			}
 		} else {
-			fmt.Fprintf(os.Stderr, "error: unknown command '%v'", input)
+			fmt.Fprintf(os.Stderr, "error: unknown command '%v'\n", input)
 		}
 	}
 }
